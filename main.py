@@ -1,11 +1,16 @@
 from text_analyzer.file_handler import FileHandler
+from text_analyzer.text_analyzer import TextAnalyzer
 
 
 def main(file_path: str):
     try:
         file_handler = FileHandler(file_path)
         text = file_handler.extract_text()
-        print(text)
+
+        analyzer = TextAnalyzer()
+        stats, word_count = analyzer.analyze(text)
+
+        print(stats)
     except Exception as ex:
         print(f"An error occurred: {ex}")
 
