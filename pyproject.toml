@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "text-analyzer"
+version = "0.1.0"
+description = "Analyze text files for word and sentence statistics."
+authors = ["Jean-Michel LIEVIN <jeanmichel.liev1@gmail.com>"]
+packages = [{include = "text_analyzer"}]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+matplotlib = "^3.10.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
