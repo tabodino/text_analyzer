@@ -1,4 +1,5 @@
 from text_analyzer.file_handler import FileHandler
+from text_analyzer.plotter import WordFrequencyPlotter
 from text_analyzer.text_analyzer import TextAnalyzer
 
 
@@ -11,6 +12,9 @@ def main(file_path: str):
         stats, word_count = analyzer.analyze(text)
 
         print(stats)
+
+        plotter = WordFrequencyPlotter()
+        plotter.plot(word_count)
     except Exception as ex:
         print(f"An error occurred: {ex}")
 
