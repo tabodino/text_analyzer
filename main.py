@@ -3,7 +3,7 @@ from text_analyzer.plotter import WordFrequencyPlotter
 from text_analyzer.text_analyzer import TextAnalyzer
 
 
-def main(file_path: str):
+def main(file_path: str) -> None:
     try:
         file_handler = FileHandler(file_path)
         text = file_handler.extract_text()
