@@ -1,11 +1,11 @@
-from text_analyzer.file_handler import FileHandler
+from text_analyzer.file_handler import FileHandlerFactory
 from text_analyzer.plotter import WordFrequencyPlotter
 from text_analyzer.text_analyzer import TextAnalyzer
 
 
 def main(file_path: str) -> None:
     try:
-        file_handler = FileHandler(file_path)
+        file_handler = FileHandlerFactory.get_handler(file_path)
         text = file_handler.extract_text()
 
         analyzer = TextAnalyzer()
@@ -21,5 +21,5 @@ def main(file_path: str) -> None:
 
 if __name__ == "__main__":
     # !-- Replace with your text file here
-    file_path = "README.md"
+    file_path = "samples/resume_John_Doe.pdf"
     main(file_path)
