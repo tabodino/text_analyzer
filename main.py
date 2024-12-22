@@ -21,5 +21,5 @@ def main(file_path: str) -> None:
 
 if __name__ == "__main__":
     # !-- Replace with your text file here
-    file_path = "samples/resume_John_Doe.pdf"
+    file_path = "samples/poetry.md"
     main(file_path)

@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.1] - 2024-12-21
+## [0.2.0] - 2024-12-21
 ### Added
 - Handle pdf files.
 - Add samples folder.
