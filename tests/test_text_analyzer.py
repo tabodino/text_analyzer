@@ -1,6 +1,7 @@
 import pytest
+from unittest.mock import patch, mock_open
 from text_analyzer.text_analyzer import TextAnalyzer, TextStats
-from text_analyzer.config import TOP_WORDS_COUNT
+from text_analyzer.config import OUTPUT_FOLDER, TOP_WORDS_COUNT
 
 SAMPLE_TEXT = "This is a sample text for testing.\n Test with a new sentence"
 
@@ -46,3 +47,25 @@ def test_extract_words(analyzer, sample_text):
 def test_extract_sentences(analyzer, sample_text):
     sentences = analyzer._extract_sentences(sample_text)
     assert len(sentences) == 2
+
+
+def test_save_results(analyzer):
+
+    stats = TextStats(
+        total_words=10,
+        unique_words=8,
+        average_sentence_length=3.0,
+        most_common_words=[
+            ("hello", 3), ("world", 2)])
+
+    output_path = "test_result.json"
+
+    with patch("builtins.open", mock_open()) as mocked_file:
+        with patch("json.dump") as mocked_json_dump:
+            analyzer.save_results(stats, output_path)
+
+            mocked_file.assert_called_once_with(
+                OUTPUT_FOLDER / output_path, "w")
+
+            mocked_json_dump.assert_called_once_with(
+                stats.__dict__, mocked_file(), ensure_ascii=False, indent=4)

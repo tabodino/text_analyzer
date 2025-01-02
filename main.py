@@ -11,7 +11,7 @@ def main(file_path: str) -> None:
         analyzer = TextAnalyzer()
         stats, word_count = analyzer.analyze(text)
 
-        print(stats)
+        analyzer.save_results(stats)
 
         plotter = WordFrequencyPlotter()
         plotter.plot(word_count)

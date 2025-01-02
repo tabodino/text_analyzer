@@ -1,5 +1,6 @@
+import json
 import re
-from .config import TOP_WORDS_COUNT
+from .config import OUTPUT_FOLDER, TOP_WORDS_COUNT
 from collections import Counter
 from dataclasses import dataclass
 from typing import List, Tuple
@@ -37,6 +38,7 @@ class TextAnalyzer:
         # TextStats(total_words=10, unique_words=9, average_sentence_length=5.0, ...)
         # word_count will be a Counter object with word frequencies.
     """
+
     def analyze(self, text: str) -> Tuple[TextStats, Counter]:
         words = self._extract_words(text)
         word_count = Counter(words)
@@ -52,7 +54,22 @@ class TextAnalyzer:
             ),
             most_common_words=word_count.most_common(TOP_WORDS_COUNT)
         )
+
         return stats, word_count
+
+    def save_results(self,
+                     stats: TextStats,
+                     output_path: str = "analyzer_result.json") -> None:
+        """
+        Save the analysis results to a JSON file.
+
+        Args:
+            stats (TextStats): The text statistics object.
+            output_path (str, optional): The path to save the results. 
+            Defaults to "analyzer_result.json".
+        """
+        with open(OUTPUT_FOLDER / output_path, "w") as json_file:
+            json.dump(stats.__dict__, json_file, ensure_ascii=False, indent=4)
 
     def _extract_words(self, text: str) -> List[str]:
         return re.findall(r"\b\w+\b", text.lower())

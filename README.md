@@ -66,6 +66,19 @@ Or, if using pip and venv:
 python main.py
 ```
 
+### With Docker
+
+Build the image
+```
+docker build -t text-analyzer .
+```
+
+Run the container
+```
+docker run -v $(pwd)/output:/app/output text-analyzer
+
+```
+
 ## Running Tests
 
 ### With Poetry
