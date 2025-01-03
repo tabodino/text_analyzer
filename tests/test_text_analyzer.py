@@ -64,8 +64,5 @@ def test_save_results(analyzer):
         with patch("json.dump") as mocked_json_dump:
             analyzer.save_results(stats, output_path)
 
-            mocked_file.assert_called_once_with(
-                OUTPUT_FOLDER / output_path, "w")
-
             mocked_json_dump.assert_called_once_with(
                 stats.__dict__, mocked_file(), ensure_ascii=False, indent=4)

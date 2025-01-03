@@ -1,18 +1,20 @@
 from collections import Counter
-from .config import TOP_WORDS_COUNT, PLOT_BAR_COLOR, OUTPUT_FOLDER
 import matplotlib.pyplot as plt
+from .config import TOP_WORDS_COUNT, PLOT_BAR_COLOR, OUTPUT_FOLDER
 
 
-class WordFrequencyPlotter:
+class WordFrequencyPlotter:  # pylint: disable=too-few-public-methods
     """
     A class to visualize word frequencies using bar plots.
 
-    This class provides a method to generate a bar plot from a Counter object containing word frequencies 
-    and save the plot to a specified file path.
+    This class provides a method to generate a bar plot from a Counter object
+    containing word frequencies and save the plot to a specified file path.
 
     Methods:
-        plot(word_count: Counter, output_path: str = "word_frequencies.png") -> None:
-            Creates a bar plot of the most common words and their frequencies, and saves it as an image file.
+        plot(word_count: Counter, 
+        output_path: str = "word_frequencies.png") -> None:
+            Creates a bar plot of the most common words and their frequencies,
+            and saves it as an image file.
 
     Example:
         from collections import Counter
@@ -28,9 +30,19 @@ class WordFrequencyPlotter:
         plotter.plot(word_count, output_path="example_plot.png")
         # This will generate a bar plot saved as 'example_plot.png'.
     """
+
     def plot(self,
              word_count: Counter,
              output_path: str = "word_frequencies.png") -> None:
+        """
+        Creates a bar plot of the most common words and their frequencies,
+        and saves it as an image file.
+
+        Args:
+            word_count (Counter): A Counter object containing word frequencies.
+            output_path (str, optional): The path to save the plot.
+            Defaults to "word_frequencies.png".
+        """
         most_common = word_count.most_common(TOP_WORDS_COUNT)
         words, counts = zip(*most_common)
 

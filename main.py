@@ -4,6 +4,7 @@ from text_analyzer.text_analyzer import TextAnalyzer
 
 
 def main(file_path: str) -> None:
+    """Main function to run the text analyzer and plotter."""
     try:
         file_handler = FileHandlerFactory.get_handler(file_path)
         text = file_handler.extract_text()
@@ -15,11 +16,17 @@ def main(file_path: str) -> None:
 
         plotter = WordFrequencyPlotter()
         plotter.plot(word_count)
-    except Exception as ex:
-        print(f"An error occurred: {ex}")
+    except FileNotFoundError as ex:
+        print(f"File not found: {ex}")
+    except ValueError as ex:
+        print(f"Value error: {ex}")
+    except PermissionError as ex:
+        print(f"Permission error: {ex}")
+    except OSError as ex:
+        print(f"OS error: {ex}")
 
 
 if __name__ == "__main__":
     # !-- Replace with your text file here
-    file_path = "samples/poetry.md"
-    main(file_path)
+    FILE_PATH = "samples/poetry.md"
+    main(FILE_PATH)

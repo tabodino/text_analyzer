@@ -1,12 +1,16 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
 from pypdf import PdfReader
+from text_analyzer.config import CHARSET
 
 
 ALLOWED_EXTENSIONS = {'.txt', '.md', '.pdf'}
 
 
 class FileHandler(ABC):
+    """
+    Abstract base class for file handlers.
+    """
 
     def __init__(self, file_path: str):
         self.file_path = file_path
@@ -14,7 +18,11 @@ class FileHandler(ABC):
 
     @abstractmethod
     def extract_text(self) -> str:
-        pass
+        """
+        Extracts text content from the file.
+        """
+        raise NotImplementedError(
+            "Subclasses must implement extract_text method")
 
     def check_extension(self) -> bool:
         """
@@ -29,9 +37,9 @@ class FileHandler(ABC):
 
 
 class TxtFileHandler(FileHandler):
-
-    def __init__(self, file_path: str):
-        self.file_path = file_path
+    """
+    Handles the extraction of text content from a text file.
+    """
 
     def extract_text(self) -> str:
         """
@@ -46,25 +54,24 @@ class TxtFileHandler(FileHandler):
             IOError: If there's an error reading the file.
         """
         try:
-            with open(self.file_path, "r", encoding="utf-8") as file:
+            with open(self.file_path, "r", encoding=CHARSET) as file:
                 return file.read()
         except (FileNotFoundError, PermissionError, IOError) as e:
             print(f"Error reading the file: {e}")
+            return ""
 
 
 class PdfFileHandler(FileHandler):
-
-    def __init__(self, file_path: str):
-        self.file_path = file_path
     """
-    Extracts text content from a PDF file.
+    Handles the extraction of text content from a PDF file.
 
-    Args:
+    Attributes:
         file_path (str): The path to the PDF file.
 
-    Returns:
-        str: The text content of the PDF file.
+    Raises:
+        ValueError: If the file extension is not supported.
     """
+
     def extract_text(self) -> str:
         try:
             text = ""
@@ -74,18 +81,33 @@ class PdfFileHandler(FileHandler):
                 if page_text:
                     text += page_text
             return text
-        except Exception as e:
-            print(f"Error extracting text from PDF: {e}")
-            return ""
+        except (FileNotFoundError, PermissionError, IOError) as e:
+            print(f"Unexpected error when extracting text from PDF {
+                self.file_path}: {e}")
+        return ""
 
 
-class FileHandlerFactory:
+class FileHandlerFactory:  # pylint: disable=too-few-public-methods
+    """
+    Factory class for creating file handlers based on file extensions.
+    """
     @staticmethod
     def get_handler(file_path: str) -> FileHandler:
+        """
+        Creates a file handler based on the file extension.
+
+        Args:
+            file_path (str): The path to the file.
+
+        Returns:
+            FileHandler: The file handler object.
+
+        Raises:
+            ValueError: If the file extension is not supported.
+        """
         extension = Path(file_path).suffix.lower()
         if extension in [".txt", ".md"]:
             return TxtFileHandler(file_path)
-        elif extension == ".pdf":
+        if extension == ".pdf":
             return PdfFileHandler(file_path)
-        else:
-            raise ValueError(f"Unsupported file type: {extension}.")
+        raise ValueError(f"Unsupported file type: {extension}.")

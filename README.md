@@ -2,6 +2,10 @@
 
 This project analyzes text files and generates word frequency plots.
 
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)
+![Pylint Score](https://img.shields.io/badge/pylint-10.00-brightgreen.svg)
+![Python](https://img.shields.io/badge/python->3.10-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ## 🖥️ Setup
 
 ### Using Poetry (Recommended)
@@ -91,6 +95,11 @@ poetry run pytest
 
 ```
 pytest
+```
+
+### Run code coverage
+```
+pytest --cov=text_analyzer --cov-report=html tests/
 ```
 
 ## 📂 Project Structure
